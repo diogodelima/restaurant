@@ -1,0 +1,16 @@
+spring:
+  application.name: restaurant
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/restaurant
+    username: postgres
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+security:
+  token:
+    secret: ${SECURITY_TOKEN_SECRET}
