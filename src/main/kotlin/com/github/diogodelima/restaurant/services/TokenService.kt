@@ -37,8 +37,6 @@ class TokenService(
             .subject
     }
 
-    fun expiresAt(): Instant {
-        return Instant.now().plusSeconds(24 * 3600L)
-    }
+    fun expiresAt(): Instant = Instant.now().plusSeconds(24 * 3600L)
 
 }

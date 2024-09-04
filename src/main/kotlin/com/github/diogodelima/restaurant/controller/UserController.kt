@@ -1,5 +1,6 @@
 package com.github.diogodelima.restaurant.controller
 
+import com.github.diogodelima.restaurant.domain.RecoverPassword
 import com.github.diogodelima.restaurant.domain.User
 import com.github.diogodelima.restaurant.dto.ChangePasswordDto
 import com.github.diogodelima.restaurant.dto.ForgotPasswordDto
@@ -9,6 +10,7 @@ import com.github.diogodelima.restaurant.exceptions.EmailAlreadyExistsException
 import com.github.diogodelima.restaurant.exceptions.UserNotFoundException
 import com.github.diogodelima.restaurant.exceptions.UsernameAlreadyExistsException
 import com.github.diogodelima.restaurant.services.MailService
+import com.github.diogodelima.restaurant.services.RecoverPasswordService
 import com.github.diogodelima.restaurant.services.TokenService
 import com.github.diogodelima.restaurant.services.UserService
 import jakarta.validation.Valid
@@ -26,6 +28,7 @@ class UserController(
     private val authenticationManager: AuthenticationManager,
     private val tokenService: TokenService,
     private val userService: UserService,
+    private val recoverPasswordService: RecoverPasswordService,
     private val mailService: MailService,
     private val passwordEncoder: PasswordEncoder
 
@@ -79,9 +82,12 @@ class UserController(
     fun forgotPassword(@RequestBody dto: ForgotPasswordDto): ResponseEntity<String> {
 
         val user = userService.loadUserByUsername(dto.username) ?: userService.getByEmail(dto.email) ?: throw UserNotFoundException()
+        val recoverPassword = recoverPasswordService.getByUser(user) ?: recoverPasswordService.save(
+            RecoverPassword(user = user)
+        )
 
-        //send email to user
-        mailService.sendEmail(user.email, "Recover password", "Test email")
+        mailService.sendEmail(user.email, "Recover password", "Token: ${recoverPassword.id.toString()}")
+
         return ResponseEntity.ok("Check your email box")
     }
 

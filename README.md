@@ -8,6 +8,7 @@ This is a personal project using [Kotlin](https://kotlinlang.org/) with the foll
 - [Spring Security](https://spring.io/projects/spring-security)
 - [Jakarta Validation](https://github.com/jakartaee/validation)
 - [Jakarta Mail](https://jakartaee.github.io/mail-api/)
+- [Scheduling Tasks](https://spring.io/guides/gs/scheduling-tasks)
 
 The database system used is [PostgreSQL](https://www.postgresql.org/)
 
@@ -15,3 +16,4 @@ This project consists of a management system for restaurants, which can register
 # Features
 
 - Implemented Spring Security with Bearer Token authentication for secure access to protected endpoints.
+- Password recovery system using username or e-mail address implemented
