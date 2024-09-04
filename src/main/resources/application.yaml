@@ -14,3 +14,13 @@ spring:
 security:
   token:
     secret: ${SECURITY_TOKEN_SECRET}
+
+mail:
+  host: ${MAIL_HOST}
+  port: ${MAIL_PORT}
+  username: ${MAIL_USERNAME}
+  password: ${MAIL_PASSWORD}
+  protocol: "smtp"
+  auth: true
+  starttls: true
+  debug: true

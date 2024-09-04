@@ -22,7 +22,7 @@ data class User(
 
     @Column(nullable = false)
     @get:JvmName("password")
-    val password: String,
+    var password: String,
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

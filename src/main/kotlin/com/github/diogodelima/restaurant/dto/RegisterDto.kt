@@ -1,21 +1,16 @@
 package com.github.diogodelima.restaurant.dto
 
-import com.github.diogodelima.restaurant.domain.Role
-import jakarta.validation.constraints.NotEmpty
-import jakarta.validation.constraints.NotNull
+import jakarta.validation.constraints.NotBlank
 
 data class RegisterDto(
 
-    @field:NotEmpty
+    @field:NotBlank
     val username: String,
 
-    @field:NotEmpty
+    @field:NotBlank
     val email: String,
 
-    @field:NotEmpty
-    val password: String,
-
-    @field:NotNull
-    val role: Role
+    @field:NotBlank
+    val password: String
 
 )

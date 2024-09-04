@@ -32,6 +32,7 @@ class SecurityConfig(
                 it
                     .requestMatchers(HttpMethod.POST, "/users/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/users/forgotpassword").permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterAfter(securityFilter, UsernamePasswordAuthenticationFilter::class.java)

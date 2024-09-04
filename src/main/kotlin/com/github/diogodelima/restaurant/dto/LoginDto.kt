@@ -1,13 +1,13 @@
 package com.github.diogodelima.restaurant.dto
 
-import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.NotBlank
 
 data class LoginDto(
 
-    @field:NotEmpty
+    @field:NotBlank
     val username: String,
 
-    @field:NotEmpty
+    @field:NotBlank
     val password: String
 
 )
