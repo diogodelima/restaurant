@@ -1,14 +1,13 @@
 package com.github.diogodelima.restaurant.controller
 
+import com.github.diogodelima.restaurant.constants.TOKEN_EXPIRATION
 import com.github.diogodelima.restaurant.domain.RecoverPassword
 import com.github.diogodelima.restaurant.domain.User
 import com.github.diogodelima.restaurant.dto.ChangePasswordDto
 import com.github.diogodelima.restaurant.dto.ForgotPasswordDto
 import com.github.diogodelima.restaurant.dto.LoginDto
 import com.github.diogodelima.restaurant.dto.RegisterDto
-import com.github.diogodelima.restaurant.exceptions.EmailAlreadyExistsException
-import com.github.diogodelima.restaurant.exceptions.UserNotFoundException
-import com.github.diogodelima.restaurant.exceptions.UsernameAlreadyExistsException
+import com.github.diogodelima.restaurant.exceptions.*
 import com.github.diogodelima.restaurant.services.MailService
 import com.github.diogodelima.restaurant.services.RecoverPasswordService
 import com.github.diogodelima.restaurant.services.TokenService
@@ -89,6 +88,22 @@ class UserController(
         mailService.sendEmail(user.email, "Recover password", "Token: ${recoverPassword.id.toString()}")
 
         return ResponseEntity.ok("Check your email box")
+    }
+
+    @PostMapping("/resetpassword")
+    fun resetPassword(@RequestParam token: String, @RequestBody @Valid dto: ChangePasswordDto): ResponseEntity<String> {
+
+        val recoverPassword = recoverPasswordService.getById(token) ?: throw TokenNotFoundException()
+        recoverPasswordService.delete(token)
+
+        if (recoverPassword.generatedAt + TOKEN_EXPIRATION < System.currentTimeMillis())
+            throw TokenExpiredException()
+
+        val user = recoverPassword.user
+        user.password = passwordEncoder.encode(dto.password)
+        userService.save(user)
+
+        return ResponseEntity.ok("Password changed successfully")
     }
 
 }
